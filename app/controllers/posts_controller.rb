@@ -32,6 +32,7 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
+    binding.pry
     @post = Post.new(post_params)
     @post.user_id = @user.id
 

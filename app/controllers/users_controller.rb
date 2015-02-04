@@ -5,8 +5,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    binding.pry
-    @user = User.new(user_params)
     respond_to do |format|
       if @user
         format.html { render :show }
@@ -19,6 +17,7 @@ class UsersController < ApplicationController
   end
 
   def create
+    binding.pry
     @user = User.new(user_params)
     respond_to do |format|
       if @user.save
@@ -34,13 +33,12 @@ class UsersController < ApplicationController
   def new
     @user = User.new
     render :new
-    redirect_to 
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:id, user: [:username, :password])
+    params.require(:user).permit([:username, :password])
   end
 
 end
