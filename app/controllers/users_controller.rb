@@ -3,4 +3,44 @@ class UsersController < ApplicationController
     @users = User.all
     render :index
   end
+
+  def show
+    binding.pry
+    @user = User.new(user_params)
+    respond_to do |format|
+      if @user
+        format.html { render :show }
+        format.json { @user.to_json }
+      else
+        format.html {render :index}
+        format.json {render json: @user.errors, status: :unprocessable_entity}
+      end
+    end
+  end
+
+  def create
+    @user = User.new(user_params)
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to user_path(@user), notice: "successfully created user." }
+        format.json { @user.posts.to_json status: :created, location: @user }
+      else
+        format.html { render :new, notice: "could not create user, please provide all required info."}
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def new
+    @user = User.new
+    render :new
+    redirect_to 
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:id, user: [:username, :password])
+  end
+
 end
