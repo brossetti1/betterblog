@@ -6,21 +6,16 @@ class UsersController < ApplicationController
 
   def show
     respond_to do |format|
-      if @user
-        format.html { render :show }
-        format.json { @user.to_json }
-      else
-        format.html {render :index}
-        format.json {render json: @user.errors, status: :unprocessable_entity}
-      end
+      format.html { render :show }
+      format.json { @user.to_json }
     end
   end
 
   def create
     binding.pry
-    @user = User.new(user_params)
+    @user = User.create(user_params)
     respond_to do |format|
-      if @user.save
+      if !!@user.id
         format.html { redirect_to user_path(@user), notice: "successfully created user." }
         format.json { @user.posts.to_json status: :created, location: @user }
       else

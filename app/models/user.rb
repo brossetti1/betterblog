@@ -1,7 +1,15 @@
 class User < ActiveRecord::Base
   has_many :posts
-  #validates :password, :confirmation => true
-  #validates_length_of :password, :in => 6..20, :on => :create
+
+  validates :username, 
+            :confirmation => true, 
+            length: { minimum: 6 }, 
+            :on => :create
+
+  validates :password, 
+            :confirmation => true,
+            length: { in: 6..20 },
+            :on => :create
 end
 
 #http://stackoverflow.com/questions/11888587/show-certain-users-blog-posts-in-rails
